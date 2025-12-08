@@ -6,12 +6,15 @@
     <title>Document</title>
 </head>
 <body>
+    <input type="number" name="num" id="num">
+    <input type="button" value="testar" onclick="testar()">
+    <div id="res">Resultado:</div>
     <script>
-
-        var x = Number(window.prompt('Digite o primeiro número: '))
-        var y = Number(window.prompt('Digite o segundo número: '))
-        var res = x + y
-        window.alert(`A soma de ${x} + ${y} é igual a ${res}`)
+        function testar(){
+            var x = window.document.getElementById('num')
+            var y = Number(x.value)
+            y % 2 === 0?res.innerHTML = 'Numero PAR':res.innerHTML = 'Numero IMPAR'
+        }
     </script>
 </body>
 </html>
