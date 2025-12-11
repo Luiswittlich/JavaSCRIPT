@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="number" name="idade" id="idade">
+    <input type="button" value="Verificar" onclick="verificar()">
+    <div id="res">Maior ou menor</div>
+
+    <script>
+        function verificar(){
+            var idade = window.document.getElementById('idade')
+            var a = Number(idade.value)
+            a < 18?res.innerHTML='Você é menor de idade!':res.innerHTML='Você é maior de idade!'
+        }
+    </script>
+
+</body>
+</html>
