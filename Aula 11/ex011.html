@@ -3,26 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste de País</title>
+    <title>Verificador de Nacionalidade</title>
 </head>
 <body>
-    <h1>Bem-vindo ao sistemas de viagens do Brasil</h1>
-    <p>Vamos verificar se você é BRASILEIRO ou ESTRANGEIRO!!</p>
-    Em qual pais você mora? <input type="text" name="txtpais" id="txtpais">
-    <input type="button" value="Verificar" onclick="verificar()">
-    <div id="res"></div>
-    <script>
-        function verificar(){
-            var pais = window.document.querySelector('input#txtpais').value
-            var res = window.document.querySelector('div#res')
-            res.innerHTML = `<p>Você mora no país ${pais}</p>`
-            if (pais == 'Brasil'){
-                res.innerHTML += `<p> Morando no <strong>${pais}</strong> você é <strong>BRASILEIRO!</strong></p>`
-            } else {
-                res.innerHTML += `<p> Morando no <strong>${pais}</strong> você é <strong>ESTRANGEIRO!</strong></p>`                
-            }           
-        }
-
-    </script>
+    <h1>Bem-vindo ao verificador de nacionalidade do Brasil!</h1>
+    <label for="txtpais">Digite o pais onde você nasceu:</label>
+    <input type="text" name="txtpais" id="txtpais">
+    <input type="submit" value="Verificar" onclick="verificar()">
+    <p id="res">Resultado</p>
+    <script src="script.js"></script>
 </body>
 </html>
