@@ -1,4 +1,4 @@
-var pais = 'EUA'
+var pais = 'Brasil'
 if (pais == 'Brasil'){
     console.log('BRASILEIRO!')
 } else {
