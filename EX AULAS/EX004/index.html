@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicio 4</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Tábuada</h1>
+    </header>
+    <section>
+        <div>
+            <p>
+                <label for="ini">Número: </label>
+                <input type="number" name="inicio" id="txtn">
+                <input type="submit" value="Gerar Tábuada" onclick="tabuada()">
+            </p>
+        </div>
+        <div>
+            <select name="tabuada" id="seltab" size="10">
+                <option>Digite um número acima</option> <!--Colocar value em JS importante para outras linguagens-->
+            </select>
+        </div>
+    </section>
+    <footer>&copy;<a href="#" target="_blank">Curso em Video</a></footer>
+    <script src="script.js"></script>
+</body>
+</html>
