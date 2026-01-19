@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastros</title>
+</head>
+<body onload="cadastros()">
+    <header>
+        <h1>Sistema de Informações por Cadastro</h1>
+    </header>
+    <section>
+        <div>
+            <p>
+                <label for="txtnome">Nome: </label>
+                <input type="text" name="txtnome" id="txtnome">
+            </p>
+            <p>
+                <label for="txtidade">Idade:</label>
+                <input type="number" name="txtidade" id="txtidade">
+            </p>
+            <p>
+                Sexo:
+                <input type="radio" name="radsex" id="masc" checked>Masculino
+                <input type="radio" name="radsex" id="femi">Feminino
+            </p>
+            <p>
+                <input id="botao" type="submit" value="Cadastrar" onclick="cadastrar()">
+                <input type="button" value="Resetar" onclick="resetar()">
+            </p>
+        </div>
+        <div id="aviso">
+
+        </div>
+        <div id="res">
+            Cadastros:
+        </div>
+    </section>
+
+    <script>
+        let pessoas = 0
+        let homens = 0
+        let mulheres = 0
+        let somaIdades = 0
+        let mediaIdades = 0
+        let criancas = 0
+        let adolescentes = 0
+        let adultos = 0
+        let idosos = 0
+        function resetar(){
+            window.location.reload()
+        }
+
+        function cadastros(){
+            res.innerHTML += `
+            <p>Foram cadastradas ${pessoas} pessoas</p>
+            <p>A media de idades é de ${mediaIdades}</p>
+            <p>${homens} homens(0%) | ${mulheres} mulheres (0%)</p><br>
+            <p>${criancas} crianças (0%) | ${adolescentes} adolescentes (0%)</p>
+            <p>${adultos} adultos (0%)  | ${idosos} idosos (0%)</p>`
+
+        }
+
+        function cadastrar(){
+           let fnome = document.getElementById('txtnome') 
+           let fidade = document.getElementById('txtidade')
+           let res = document.getElementById('res')
+           if (fnome.value.length == 0 || fidade.value.length == 0){
+            window.alert('Por favor, verifique os dados novamente')
+            return
+           }
+
+           if (Number(fidade.value) <= 0 || Number(fidade.value) > 120){
+            window.alert('Por favor, idades somente entre 1 a 120 anos são permitidas!')
+            return
+           }
+
+           pessoas ++
+
+           if (pessoas > 10){
+            const botao = document.getElementById('botao')
+            const aviso = document.getElementById('aviso')
+            document.getElementById('botao').disabled = true
+            aviso.innerHTML = 'Limite de 10 pessoas atingido'
+            aviso.style.background = 'red'
+            aviso.style.color = 'white'
+            return
+        
+           }
+
+           let nome = fnome.value
+           let idade = Number(fidade.value)
+           let sex = document.getElementsByName('radsex')
+           somaIdades += idade
+           mediaIdades = somaIdades / pessoas
+           if (sex[0].checked){
+            homens++
+           } else {
+            mulheres++
+           }
+
+            if (idade <= 12 ){
+                criancas++
+                res.innerHTML = `${nome} tem ${idade} anos e é criança!</br>`
+            } else if (idade < 18){
+                adolescentes++
+                res.innerHTML = `${nome} tem ${idade} anos e é adolescente!</br>`
+            } else if (idade < 65){
+                adultos++
+                res.innerHTML = `${nome} tem ${idade} anos e é adulto!</br>`
+            } else {
+                idosos++
+                res.innerHTML = `${nome} tem ${idade} anos e é idoso!</br>`
+            }
+
+            res.innerHTML += `
+            <p>Foram cadastradas ${pessoas} pessoas</p>
+            <p>A media de idades é de ${mediaIdades.toFixed(2)}</p>
+            <p>${homens} homens (${((homens/pessoas)*100).toFixed(2)}%) | ${mulheres} mulheres (${((mulheres/pessoas)*100).toFixed(2)}%)</p><br>
+            <p>${criancas} crianças (${((criancas/pessoas)*100).toFixed(2)}%) | ${adolescentes} adolescentes (${((adolescentes/pessoas)*100).toFixed(2)}%)</p>
+            <p>${adultos} adultos (${((adultos/pessoas)*100).toFixed(2)}%)  | ${idosos} idosos (${((idosos/pessoas)*100).toFixed(2)}%)</p>
+            `
+            fnome.value = ''
+            fidade.value = ''
+
+        }
+    </script>
+</body>
+</html>

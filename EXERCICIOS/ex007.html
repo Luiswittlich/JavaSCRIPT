@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador</title>
+</head>
+<body>
+    <header>
+        <h1>Contador de pessoas</h1>
+    </header>
+    <section>
+        <div>
+            <p>
+                <label for="txtn">Nome: </label>
+                <input type="text" name="txtn" id="txtn">
+            </p>
+            <p>
+                <label for="txti">Idade: </label>
+                <input type="number" name="txti" id="txti">
+            </p>
+            <p>
+                Sexo:
+                <input type="radio" name="radsex" id="mas" checked>Masculino
+                <input type="radio" name="radsex" id="fem">Feminino 
+            </p>
+            <div>
+                <input type="submit" value="Contar" onclick="contar()">
+            </div>
+        </div>
+        <div id="res">
+            Resultado:
+        </div>
+    </section>
+    <script>
+        // Contadores globais (não reiniciam)
+        let menor = 0
+        let adulto = 0
+        let idoso = 0
+        let masc = 0
+        let fem = 0
+
+        function contar() {
+            let fnome = document.getElementById('txtn')
+            let idade = document.getElementById('txti')
+            let res = document.getElementById('res')
+            let fsex = document.getElementsByName('radsex')
+
+            if (fnome.value.length === 0 || idade.value.length === 0) {
+                window.alert('Por favor, verifique os dados novamente!')
+                return
+            }
+
+            let nome = fnome.value
+            let fidade = Number(idade.value)
+
+            // Limpa apenas o resultado individual
+            res.innerHTML = '<p>Resultado:</p>'
+
+            if (fsex[0].checked) {
+                masc++
+            } else {
+                fem++
+            }
+
+            if (fidade < 18) {
+                res.innerHTML += `<p>${nome} tem ${fidade} anos e é menor de idade.</p>`
+                menor++
+            } else if (fidade < 65) {
+                res.innerHTML += `<p>${nome} tem ${fidade} anos e é maior de idade.</p>`
+                adulto++
+            } else {
+                res.innerHTML += `<p>${nome} tem ${fidade} anos e é idoso.</p>`
+                idoso++
+            }
+
+            res.innerHTML += `
+                <p><strong>Total:</strong></p>
+                <p>${masc + fem} pessoas</p>
+                <p>${masc} homens | ${fem} mulheres</p>
+                <p>${menor} menores | ${adulto} adultos | ${idoso} idosos</p>
+            `
+        }
+    </script>
+</body>
+</html>

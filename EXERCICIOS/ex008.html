@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastros</title>
+</head>
+<body>
+    <header>
+        <h1>Ficha cadastral</h1>
+    </header>
+    <section>
+        <div>
+            <p>
+                <label for="txtnome">Nome: </label>
+                <input type="text" name="txtnome" id="txtnome">
+            </p>
+            <p>
+                <label for="txtidade">Idade: </label>
+                <input type="number" name="txtidade" id="txtidade">
+            </p>
+            <p>
+                Sexo:
+                <input type="radio" name="radsex" id="masc" checked >Masculino
+                <input type="radio" name="radsex" id="femi">Feminino
+            </p>
+            <p>
+                <input type="submit" value="Cadastrar" id="botao" onclick="cadastrar()">
+            </p>
+        </div>
+        <div id="res">
+            Cadastros:
+        </div>
+    </section>
+
+    <script>
+        var pessoas = 0
+        var homens = 0
+        var mulheres = 0
+        var crianca = 0
+        var adolescente = 0
+        var adulto = 0
+        var idoso = 0
+        let res = document.getElementById('res')
+
+        function cadastrar(){
+            let fnome = document.getElementById('txtnome')
+            let fidade = document.getElementById('txtidade')
+            if (fnome.value.length == 0 || fidade.value.length == 0){
+                window.alert('Por favor, verifique os dados novamente!')
+                return
+            } 
+
+            pessoas++
+
+            if (pessoas == 5){   
+            var botao = document.getElementById('botao')
+            document.getElementById('botao').disabled = true 
+            res.appendChild.innerHTML += 'Limite de 5 pessoas atingido!'
+            } 
+            
+            let nome = fnome.value
+            let idade = Number(fidade.value)
+            let sex = document.getElementsByName('radsex')
+
+            
+            if (sex[0].checked){
+                homens++
+            } else {
+                mulheres ++
+            }
+
+            if (idade <= 12 ){
+                crianca++
+                res.innerHTML = `${nome} tem ${idade} anos e é criança!`
+            } else if (idade < 18){
+                adolescente++
+                res.innerHTML = `${nome} tem ${idade} anos e é adolescente!`
+            } else if (idade < 65){
+                adulto++
+                res.innerHTML = `${nome} tem ${idade} anos e é adulto!`
+            } else {
+                idoso++
+                res.innerHTML = `${nome} tem ${idade} anos e é idoso!`
+            }
+
+            res.innerHTML += `
+            <p>Foram cadastradas ${pessoas} pessoas</p>
+            <p>${homens} homens | ${mulheres} mulheres</p><br>
+            <p>${crianca} crianças | ${adolescente} adolescentes</p>
+            <p>${adulto} adultos  | ${idoso} idosos</p>
+            `
+            fnome.value = ''
+            fidade.value = ''
+            
+        }
+    </script>
+</body>
+</html>
