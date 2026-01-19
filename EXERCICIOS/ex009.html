@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastros</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body onload="cadastros()">
     <header>
         <h1>Sistema de Informações por Cadastro</h1>
     </header>
     <section>
-        <div>
+        <div class="main">
             <p>
                 <label for="txtnome">Nome: </label>
                 <input type="text" name="txtnome" id="txtnome">
@@ -29,10 +30,10 @@
                 <input type="button" value="Resetar" onclick="resetar()">
             </p>
         </div>
-        <div id="aviso">
+        <div id="aviso" class="aviso">
 
         </div>
-        <div id="res">
+        <div id="res" class="res">
             Cadastros:
         </div>
     </section>
