@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Tarefas</title>
+</head>
+<body>
+    <h1>Lista de Tarefas</h1>
+    <p>
+        <label for="txtataref">Adicionar tarefa:</label>
+        <input type="text" name="txtataref" id="txtataref">
+        <input type="button" value="Adicionar" onclick="adicionar()">
+    </p>
+    <p>
+        <label for="txtrtaref">Digite a posição para remover tarefa:</label>
+        <input type="text" name="txtrtaref" id="txtrtaref">
+        <input type="button" value="Remover" onclick="remover()">
+    </p>
+    <p>
+        <input type="button" value="Listar Tarefas" onclick="listar()">
+    </p>
+    <div id="res">
+
+    </div>
+    <script>
+        let tarefas = []
+        function adicionar(){
+            let ftarefa = document.getElementById('txtataref')
+            let res = document.getElementById('res')
+            if (ftarefa.value.trim() == 0){
+                res.innerHTML = `Por favor, digite uma tarefa para adicionar`
+                return
+            } else {
+                tarefas.push(ftarefa.value)
+                res.innerHTML = `Tarefa adicionada com sucesso!`
+                ftarefa.value = ''
+                ftarefa.focus()
+            }
+        }
+        function listar(){
+            let res = document.getElementById('res')
+            res.innerHTML = `Listando Tarefas!`
+            for(let pos in tarefas){
+                res.innerHTML += `<p>${pos} - ${tarefas[pos]}`
+            }
+        }
+
+        function remover(){
+            let res = document.getElementById('res')
+            let ftarefa = document.getElementById('txtrtaref')
+            if (ftarefa.value.trim() === 0){
+                res.innerHTML = `Por favor, digite uma tarefa para remover!`
+            } else {
+                tarefas.splice(ftarefa.value,1)
+                res.innerHTML = `Tarefa removida com sucesso!`
+                ftarefa.value = ''
+            }
+        }
+    </script>
+</body>
+</html>
