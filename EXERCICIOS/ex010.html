@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criando listas</title>
+</head>
+<body>
+    <h1>Adicionando coisas a listas</h1>
+    <p>Lista de mercado: <input type="text" name="txtitem" id="txtitem"></p>
+    <input type="button" value="Adicionar" onclick="adicionar()">
+    <input type="button" value="Reset" onclick="resetar()">
+    <ol id="listam">
+    
+    </ol>
+    <script>
+        function adicionar(){
+            let fmercado = document.getElementById('txtitem')
+            if (fmercado.value.trim().length === 0){
+                window.alert('Por favor digite um item')
+                return
+            }
+            let mercado = fmercado.value
+            let lista = document.getElementById('listam')
+            let item = document.createElement('li')
+            item.textContent = mercado
+            lista.appendChild(item)
+            fmercado.value = ``
+            fmercado.focus()
+        }
+
+        function resetar(){
+            let lista = document.getElementById('listam')
+            lista.innerHTML = ``
+            
+        }
+
+    </script>
+</body>
+</html>
