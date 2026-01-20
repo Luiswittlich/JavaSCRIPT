@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compras</title>
+</head>
+<body>
+    <header>
+        <h1>Lista de Compras</h1>
+    </header>
+    <section>
+        <div>
+            <p>
+                <label for="txtprod">Digite um produto:</label>
+                <input type="text" name="txtprod" id="txtprod">
+                <input type="button" value="Adicionar" onclick="adicionar()">
+            </p>
+            <p>
+                <label for="txtrprod">Remover um produto:</label>
+                <input type="text" name="txtrprod" id="txtrprod">
+                <input type="button" value="Remover" onclick="remover()">
+            </p>
+            <p>
+                <input type="button" value="Listar Produtos" onclick="listar()">
+            </p>
+        </div>
+        <div id="res">
+
+        </div>
+    </section>
+    <script>
+        let compras = []
+        let inputProduto = document.getElementById('txtprod')
+        inputProduto.addEventListener('keydown', function(event){
+            if (event.key === 'Enter'){
+                event.preventDefault()
+                adicionar()
+            }
+        })
+
+        let inputRemover = document.getElementById('txtrprod')
+        inputRemover.addEventListener('keydown', function(event){
+            if (event.key === 'Enter'){
+                event.preventDefault()
+                remover()
+            }
+        })
+
+        function adicionar(){
+            let fprod = document.getElementById('txtprod')
+            let res = document.getElementById('res')
+            if (fprod.value.trim().length === 0){
+                res.innerHTML = `Por favor, digite um produto valido para adicionar a lista!`
+                fprod.value = ''
+                fprod.focus()
+            } else {
+                compras.push(fprod.value.trim())
+                res.innerHTML = `Produto adicionado sucesso!`
+                fprod.value = ''
+                fprod.focus()
+            }
+                
+        }
+
+        function listar(){
+            let res = document.getElementById('res')
+            res.innerHTML = ``
+
+            if (compras.length === 0){
+                res.innerHTML = 'Lista Vazia!'
+                return
+            }
+
+            for (let pos=0; compras.length > pos; pos++){
+                let p = document.createElement('p')
+                p.textContent= `${pos} - ${compras[pos]}`
+                p.style.cursor = 'pointer'
+
+                p.addEventListener('click', function(){
+                    removerPorClique(pos)
+                })
+
+                res.appendChild(p)
+            }
+                
+        }
+
+        function removerPorClique(pos){
+            let res = document.getElementById('res')
+            res.innerHTML = `${compras[pos]} removido com sucesso!`
+            compras.splice(pos,1)
+            listar()
+        }
+
+        function remover(){
+            let rprod = document.getElementById('txtrprod')
+            let res = document.getElementById('res')
+            let pos = Number(rprod.value)
+            if (isNaN(pos) || pos < 0 || pos >= compras.length){
+                res.innerHTML = `Por favor, digite um valor valido para remover da lista!`
+                rprod.value = ''
+                rprod.focus()
+                return
+            } else {
+                res.innerHTML = `${compras[pos]} removido com sucesso!`
+                compras.splice(pos,1)
+                rprod.value = ''
+            }
+        }
+    </script>
+    
+</body>
+</html>
