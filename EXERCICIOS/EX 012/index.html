@@ -38,7 +38,6 @@
                 adicionar()
             }
         })
-
         let inputRemover = document.getElementById('txtrprod')
         inputRemover.addEventListener('keydown', function(event){
             if (event.key === 'Enter'){
@@ -46,7 +45,6 @@
                 remover()
             }
         })
-
         function adicionar(){
             let fprod = document.getElementById('txtprod')
             let res = document.getElementById('res')
@@ -62,7 +60,6 @@
             }
                 
         }
-
         function listar(){
             let res = document.getElementById('res')
             res.innerHTML = ``
@@ -85,14 +82,12 @@
             }
                 
         }
-
         function removerPorClique(pos){
             let res = document.getElementById('res')
             res.innerHTML = `${compras[pos]} removido com sucesso!`
             compras.splice(pos,1)
             listar()
         }
-
         function remover(){
             let rprod = document.getElementById('txtrprod')
             let res = document.getElementById('res')
