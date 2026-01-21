@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculador de notas</title>
+</head>
+<body>
+    <header>
+        <h1>Calculador de notas</h1>
+    </header>
+    <section>
+        <div>
+            <p>
+                <label for="txtn">Digite a nota do aluno: </label>
+                <input type="number" name="txtn" id="txtn" step="0.10" max="10" min="0" oninput="validar(this)">
+                <input id="adicionar" type="button" value="Adicionar">
+            </p>
+            <p>
+                <input id="verM" type="button" value="Notas">
+                <input id="media" type="button" value="Média">
+                <input id="aprov" type="button" value="Aprovados">
+                <input id="reprov" type="button" value="Reprovados">
+                <input id="maiorN" type="button" value="Maior nota">
+                <input id="menorN" type="button" value="Menor nota">
+            </p>
+        </div>
+        <div id="res">
+            Resultado:
+        </div>
+    </section>
+    <script>
+        let notas = []
+        const res = document.getElementById('res')
+
+        let botaoAdd = document.getElementById('adicionar')
+        botaoAdd.addEventListener('click', adicionar)
+
+        let botaoVerm = document.getElementById('verM')
+        botaoVerm.addEventListener('click', verN)
+
+        let botaoMed = document.getElementById('media')
+        botaoMed.addEventListener('click',media)
+
+        let botaoApr = document.getElementById('aprov')
+        botaoApr.addEventListener('click',aprovados)
+
+        let botaoRep = document.getElementById('reprov')
+        botaoRep.addEventListener('click', reprovados)
+
+        let botaoManota = document.getElementById('maiorN')
+        botaoManota.addEventListener('click',maiorNota)
+
+        let botaoMenota = document.getElementById('menorN')
+        botaoMenota.addEventListener('click', menorNota)
+
+        let inputNotas = document.getElementById('txtn')
+        inputNotas.addEventListener('keydown', function(event){
+            if (event.key === 'Enter'){
+                event.preventDefault()
+                adicionar()
+            }
+        })
+
+        function validar(input){
+            if(input.value > 10){
+                input.value = 10;
+            }
+            if(input.value < 0){
+                input.value = 0;
+            }
+        }
+
+        function adicionar(){
+            let fnota = document.getElementById('txtn')
+            if (fnota.value.trim().length === 0){
+                window.alert('Por favor, digite um valor valido!!')
+                return
+            }
+            res.textContent = ''
+            let nota = Number(fnota.value)
+            notas.push(nota)
+            let p = document.createElement('p')
+            p.textContent = 'Nota adicionada com sucesso!'
+            res.appendChild(p)
+
+            fnota.value = ''
+            fnota.focus()
+        }
+
+        function verN(){
+            if (notas.length === 0){
+                res.textContent = `Nenhuma nota Digitada!`
+                return
+            }
+            res.textContent = ''
+
+            let titulo = document.createElement('p')
+            titulo.textContent = 'Mostrando notas: '
+
+            let fragment = document.createDocumentFragment()
+            fragment.appendChild(titulo)
+
+            notas.forEach((nota,index)=>{
+                let p = document.createElement('p')
+                p.textContent = `${index} - ${nota.toFixed(2)}`
+                fragment.appendChild(p)
+            })
+            res.appendChild(fragment)
+        }
+        function media(){
+            if (notas.length ===0){
+                res.textContent = `Nenhuma nota disponivel no sistema!`
+                return
+            }
+            let media = notas.reduce((total,nota)=>{
+                return total + nota
+            }, 0) / notas.length
+            
+            res.textContent = `A média das notas é ${media.toFixed(2)}`
+        }
+
+        function aprovados(){
+            let apr = notas.filter(nota => nota >= 7)
+
+            res.textContent = ''
+
+            let fragment = document.createDocumentFragment()
+            let titulo = document.createElement('h2')
+            titulo.textContent = "As notas aprovadas foram:"
+            fragment.appendChild(titulo)
+
+            apr.forEach((nota)=>{
+                let p = document.createElement('p')
+                p.textContent = `Aprovado com nota ${nota.toFixed(2)}`
+                fragment.appendChild(p)
+            })
+            res.appendChild(fragment)
+        }
+
+        function reprovados(){
+            let rep = notas.filter(nota => nota < 7)
+
+            res.textContent = ''
+           
+            
+            let fragment = document.createDocumentFragment()
+            let titulo = document.createElement('h2')
+            titulo.textContent = 'As notas reprovadas foram:'
+            fragment.appendChild(titulo)
+
+            rep.forEach((nota)=>{
+                let p = document.createElement('p')
+                p.textContent = `Reprovado com nota ${nota.toFixed(2)}`
+                fragment.appendChild(p)
+            })
+
+            res.appendChild(fragment)
+        }
+
+        function maiorNota(){
+            if (notas.length === 0){
+                res.textContent = `Não existem notas cadastradas!`
+                return
+            }
+            let mNota = Math.max(...notas)
+            res.textContent = `A maior nota foi ${mNota.toFixed(2)}`
+        }
+
+        function menorNota(){
+            if (notas.length === 0){
+                res.innerHTML = `Não existem notas cadastradas!`
+                return
+            }
+            let mNota = Math.min(...notas)
+            res.textContent = `A menor nota foi ${mNota.toFixed(2)}`
+        }
+
+    </script>
+</body>
+</html>
