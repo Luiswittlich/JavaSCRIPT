@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicio 5</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Analisador de Numeros</h1>
+    </header>
+    <section>
+        <div>
+            <p>
+                <label for="ini">Número (Entre 1 a 100): </label>
+                <input type="number" name="inicio" id="txtn" max="100" min="0">
+                <input id="botaoAdd" type="submit" value="Adicionar">
+            </p>
+        </div>
+        <div>
+            <select name="tabela" id="seltab" size="10" width="50">
+            </select>
+            <p><input id="final" type="button" value="Finalizar"></p>
+        </div>
+        <div id="res">
+
+        </div>
+    </section>
+    <footer>&copy;<a href="#" target="_blank">Curso em Video</a></footer>
+    <script >
+        let numeros = []
+        let tab = document.getElementById('seltab')
+        let res = document.getElementById('res')
+
+        let inputAdd = document.getElementById('botaoAdd')
+        inputAdd.addEventListener('click',adicionar)
+
+        let inputFin = document.getElementById('final')
+        inputFin.addEventListener('click', finalizar)
+
+        let inputNum = document.getElementById('txtn')
+        inputNum.addEventListener('keydown',function(event){
+            if (event.key === 'Enter'){
+                event.preventDefault()
+                adicionar()
+            }
+        })
+
+        function adicionar(){
+            let fnum = document.getElementById('txtn')
+            res.textContent = ''
+            if (fnum.value.trim().length === 0 || Number(fnum.value) > 100 || Number(fnum.value) < 1){
+                window.alert('Por favor, digite um valor valido!')
+                fnum.value = ''
+                fnum.focus()
+                return
+            }
+            let indice = numeros.indexOf(Number(fnum.value))
+            if (indice !== -1){
+                window.alert('Valor já cadastrado!')
+                fnum.value = ''
+                fnum.focus()
+                return
+            }
+
+            let num = Number(fnum.value)
+            let p = document.createElement('option')
+            p.textContent = `Valor ${num} adicionado`
+            numeros.push(num)
+            let tabela = document.getElementById('seltab')
+            tabela.appendChild(p)
+
+            fnum.value = ''
+            fnum.focus()
+        }
+
+        function finalizar(){
+            res.textContent = ''
+            if (numeros.length === 0){
+                res.textContent = `Adicione valores antes de finalizar`
+                return
+            }
+            let titulo = document.createElement('h2')
+            let fragment = document.createDocumentFragment()
+            titulo.textContent = `Mostrando Estatisticas!`
+            fragment.appendChild(titulo)
+
+            let p = document.createElement('p')
+            p.textContent = `Ao total foram adicionados ${numeros.length} números.`
+            fragment.appendChild(p)
+
+            let maiorNota = Math.max(...numeros)
+            let pManota = document.createElement('p')
+            pManota.textContent = `O maior valor informado foi ${maiorNota}.`
+            fragment.appendChild(pManota)
+
+            let menorNota = Math.min(...numeros)
+            let pMenota = document.createElement('p')
+            pMenota.textContent = `O menor valor informado foi ${menorNota}.`
+            fragment.appendChild(pMenota)
+            
+            let soma = numeros.reduce((total, num)=>{
+                return total + num
+            },0)
+            let pSoma = document.createElement('p')
+            pSoma.textContent = `Somando todos os valores, temos ${soma}.`
+            fragment.appendChild(pSoma)
+
+            let media = numeros.reduce((total,num) =>{
+                return total + num
+            },0) / numeros.length
+
+            let pMedia = document.createElement('p')
+            pMedia.textContent = `A média dos valores digitados é ${media.toFixed(2)}.`
+            fragment.appendChild(pMedia)
+
+            res.appendChild(fragment)
+        }
+
+    </script>
+</body>
+</html>

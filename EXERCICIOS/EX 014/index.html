@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador</title>
+</head>
+<body>
+    <header>
+        <h1>Gerenciador de Notas</h1>
+    </header>
+    <section>
+        <div>
+            <p>
+                <label for="fnota">Digite a nota do aluno:</label>
+                <input type="number" name="fnota" id="fnota" step="0.10">
+                <input id="btnAdd" type="button" value="Adicionar">
+            </p>
+            <p>
+                <input id="btnVern" type="button" value="Notas">
+            </p>
+        </div>
+        <div id="res">
+
+        </div>
+        <div id="est">
+
+        </div>
+    </section>
+    <script>
+        const fnota = document.getElementById('fnota')
+        let res = document.getElementById('res')
+        let est = document.getElementById('est')
+        const app = {
+            notas:[],
+            erro: null
+        }
+
+        let clickNota = document.getElementById('btnAdd')
+        clickNota.addEventListener('click', adicionar)
+    
+
+        let verNota = document.getElementById('btnVern')
+        verNota.addEventListener('click', render)
+
+        fnota.addEventListener('input', ()=>validar(fnota))
+
+        fnota.addEventListener('keydown',function(event){
+            if (event.key === "Enter"){
+                event.preventDefault()
+                adicionar()
+            }
+        })
+
+        function render(){
+            res.innerHTML = ''
+            est.innerHTML = ''
+
+            if (app.erro){
+                const p = document.createElement('p')
+                p.textContent = app.erro
+                res.appendChild(p)
+                fnota.value = ''
+                return
+            }
+
+            if (app.notas.length === 0){
+                const h2 = document.createElement('h2')
+                h2.textContent = `Nenhuma nota registrada!`
+                res.appendChild(h2)
+                return
+            }
+
+
+            res.appendChild(verN())
+            est.appendChild(estatisticas())
+
+        }
+
+        function adicionar(){
+            if (fnota.value.trim().length === 0){
+                app.erro = "Digite uma nota para adicionar!"
+                render()
+                return
+            }
+
+            let nota = Number(fnota.value)
+
+            if (nota < 0 || nota > 10){
+                app.erro = 'Nota Invalida, digite um valor entre 0 e 10'
+                render()
+                return
+            }
+            app.notas.push(nota)
+            app.erro = null
+
+            fnota.value = ''
+            fnota.focus()
+
+            render()
+        }
+
+        function verN(){
+            const titulo = document.createElement('h2')
+            const fragment = document.createDocumentFragment()
+          
+            titulo.textContent = 'Mostrando notas'
+            fragment.appendChild(titulo)
+            
+            app.notas.forEach((nota, index)=>{
+                const p = document.createElement('p')
+                p.textContent = `${index + 1} - Nota ${nota.toFixed(2)}`
+                p.style.cursor = 'pointer'
+                p.classList.add('nota')
+
+                p.addEventListener('click', () => removerPorClick(index))
+                p.addEventListener('mouseenter', () => p.style.color = 'red')
+                p.addEventListener('mouseleave', () => p.style.color = '')
+
+                fragment.appendChild(p)
+            })
+            return fragment   
+        }
+
+        function removerPorClick(index){
+            const confirmou =  confirm('Tem certeza que deseja excluir a nota?')
+
+            if (!confirmou){
+                return
+            }
+            app.notas.splice(index,1)
+            render()
+        }
+
+        function criarP(texto){
+            const p = document.createElement('p')
+            p.textContent = texto
+            return p
+        }
+
+        function estatisticas(){
+            const fragment = document.createDocumentFragment()
+
+            const titulo = document.createElement('h2')
+            titulo.textContent = 'Estatisticas'
+            fragment.appendChild(titulo)
+
+            const total = app.notas.length
+            const soma = app.notas.reduce ((acc,n)=> acc+n,0)
+            const media = soma/total
+            const maior = Math.max(...app.notas)
+            const menor = Math.min(...app.notas)
+
+            fragment.appendChild(criarP(`Total de notas: ${total}`))
+            fragment.appendChild(criarP(`Soma das notas: ${soma.toFixed(2)}`))
+            fragment.appendChild(criarP(`Média: ${media.toFixed(2)}`))
+            fragment.appendChild(criarP(`Maior nota: ${maior.toFixed(2)}`))
+            fragment.appendChild(criarP(`Menor nota: ${menor.toFixed(2)}`))
+
+            return fragment
+        }
+    </script>
+</body>
+</html>
