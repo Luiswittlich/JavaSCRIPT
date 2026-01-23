@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de produtos</title>
+</head>
+<body>
+    <header>
+        <h1>Gerenciador de Produtos</h1>
+    </header>
+    <section>
+        <div>
+            <p>
+                <label for="txtnome">Nome: </label>
+                <input type="tel" name="txtnome" id="txtnome" placeholder="Nome do produto" >
+            </p>
+            <p>
+                <label for="fnum">Preço: </label>
+                <input type="number" name="fnum" id="fnum" placeholder="Preço">
+            </p>
+            <p>
+                <button id="add">Adicionar</button>
+            </p>
+        </div>
+        <hr>
+        <div id="lista"></div>
+        <div id="total"></div>
+    </section>
+    <script>
+        let lista = document.getElementById('lista')
+        let total = document.getElementById('total')
+        const app = {
+            produtos:[],
+            erro: null
+        }
+
+        let inputAdd = document.getElementById('add')
+        inputAdd.addEventListener('click', addProd)
+
+        function addProd(){
+            let nomeProd = document.getElementById('txtnome')
+            let fnum = document.getElementById('fnum')
+
+            if (nomeProd.value.trim().length === 0){
+                app.erro = `Por favor, digite um nome!`
+                render()
+                return
+            }
+            let precoProd = Number(fnum.value)
+            if (precoProd <= 0){
+                app.erro = `Por favor, digite um valor valido!`
+                render()
+                return
+            }
+
+            let produto = {
+                nome: nomeProd.value,
+                preco: precoProd
+            }
+            
+            app.produtos.push(produto)
+            app.erro = null
+            nomeProd.value = ''
+            nomeProd.focus()
+            fnum.value = ''
+            render()
+        }
+
+        function render(){
+            lista.innerHTML = ''
+            total.innerHTML = ''
+
+            if (app.erro){
+                const p = document.createElement('p')
+                p.textContent = app.erro
+                total.appendChild(p)
+                return
+            }
+            listarProd()
+            calcTotal()
+
+        }
+
+        function listarProd(){
+            if (app.produtos.length === 0){
+                const p = document.createElement('p')
+                p.textContent = "Nenhum produto cadastrado!"
+                lista.appendChild(p)
+                return
+            }
+            
+            app.produtos.forEach((produto,index)=>{
+                const p = document.createElement('p')
+                p.textContent = `${index+1} - ${produto.nome}: R$${(produto.preco).toFixed(2)}`
+                const btn = document.createElement('button')
+                btn.textContent = ` \u{274C}`
+
+                btn.addEventListener('click', () =>removerClick(index))
+                p.addEventListener('mouseenter', () => p.style.color = 'red')
+                p.addEventListener('mouseleave', () => p.style.color = '')
+                btn.style.cursor = 'pointer'
+                p.appendChild(btn)
+                p.classList.add = 'prodLista'
+
+
+                lista.appendChild(p)
+            })
+        }
+
+        function removerClick(index){
+            const confirmou =  confirm('Tem certeza que deseja excluir este produto?')
+
+            if (!confirmou){
+                return
+            }
+
+            app.produtos.splice(index,1)
+            render()
+        }
+
+        function calcTotal(){
+            const soma = app.produtos.reduce((totalEl,produto)=>{
+                return totalEl + produto.preco
+            },0)
+            const pTotal = document.createElement('p')
+            pTotal.textContent = `Total: R$ ${soma.toFixed(2)}`
+            total.appendChild(pTotal)
+        }
+    </script>
+</body>
+</html>
